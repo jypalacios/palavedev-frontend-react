@@ -16,9 +16,15 @@ services:
     ports:
       - "${REACT_ADMIN_PORT}:3000"
 
+    volumes:
+      - frontend_repository:/app/repository
+    
     networks:
       - dev1_network
 
 networks:
   dev1_network:
     external: true
+
+volumes:
+  frontend_repository:
