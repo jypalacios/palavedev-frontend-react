@@ -1,0 +1,24 @@
+services:
+  frontend-admin:
+    container_name: frontend-admin
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: palavedev/frontend-admin:1.0
+
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    ports:
+      - "${REACT_ADMIN_PORT}:3000"
+
+    networks:
+      - dev1_network
+
+networks:
+  dev1_network:
+    external: true
