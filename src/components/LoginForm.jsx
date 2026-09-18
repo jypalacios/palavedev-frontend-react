@@ -4,12 +4,10 @@ import { useAuth } from "../auth/AuthContext";
 
 export default function LoginForm() {
   const navigate = useNavigate();
-
   const { iniciarSesion } = useAuth();
 
   const [nomLogin, setNomLogin] = useState("");
   const [password, setPassword] = useState("");
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -25,12 +23,25 @@ export default function LoginForm() {
       navigate("/home", { replace: true });
 
     } catch (error) {
+
       setError(
         error.message || "Usuario o contraseña incorrectos"
       );
+
     } finally {
+
       setLoading(false);
+
     }
+  }
+
+  function limpiarFormulario() {
+    setNomLogin("");
+    setPassword("");
+    setError("");
+
+    // Devuelve el foco al campo usuario
+    document.getElementById("nom_login")?.focus();
   }
 
   return (
@@ -40,6 +51,7 @@ export default function LoginForm() {
     >
 
       <div className="form-group">
+
         <label htmlFor="nom_login">
           Usuario
         </label>
@@ -53,11 +65,14 @@ export default function LoginForm() {
           }
           placeholder="Ingrese su usuario"
           autoComplete="username"
+          disabled={loading}
           required
         />
+
       </div>
 
       <div className="form-group">
+
         <label htmlFor="password">
           Contraseña
         </label>
@@ -71,8 +86,10 @@ export default function LoginForm() {
           }
           placeholder="Ingrese su contraseña"
           autoComplete="current-password"
+          disabled={loading}
           required
         />
+
       </div>
 
       {error && (
@@ -81,13 +98,26 @@ export default function LoginForm() {
         </div>
       )}
 
-      <button
-        type="submit"
-        className="login-button"
-        disabled={loading}
-      >
-        {loading ? "Validando..." : "Ingresar"}
-      </button>
+      <div className="login-buttons">
+
+        <button
+          type="submit"
+          className="login-button"
+          disabled={loading}
+        >
+          {loading ? "Validando..." : "Ingresar"}
+        </button>
+
+        <button
+          type="button"
+          className="login-clear-button"
+          onClick={limpiarFormulario}
+          disabled={loading}
+        >
+          Limpiar
+        </button>
+
+      </div>
 
     </form>
   );
